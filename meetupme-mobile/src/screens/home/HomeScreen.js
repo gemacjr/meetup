@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { MeetupApi } from '../../../constants/api';
 import { LoadingScreen } from '../../commons';
 import { MyMeetupsList } from './components';
@@ -13,7 +14,15 @@ class HomeScreen extends Component {
         meetupApi
     }
 
-    state = { 
+    // static navigationOptions = {
+    //   tabBar: {
+    //     icon: ({ tintColor }) => (
+    //       <Ionicons name="ios-home" size={24} color={ tintColor } />
+    //     )
+    //   }
+    // }
+
+    state = {
         loading: false,
         meetups: []
 

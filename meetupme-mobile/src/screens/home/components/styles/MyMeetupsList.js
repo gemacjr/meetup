@@ -24,10 +24,10 @@ const styles = EStyleSheet.create({
     },
 
     meetupCard: {
-        height: 200,
+        height: 190,
         width: 175,
         marginHorizontal: '1.5%',
-        backgroundColor: '#f73859'
+        backgroundColor: '$redColor'
     },
     meetupCardTopContainer: {
         flex: 1,
