@@ -1,18 +1,25 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { MeetupApi } from '../../../constants/api';
+import { connect } from 'react-redux';
+
 import { LoadingScreen } from '../../commons';
 import { MyMeetupsList } from './components';
+
+import { fetchMyMeetups } from './actions';
 import styles from './styles/HomeScreen';
 
-const meetupApi = new MeetupApi();
 
+
+
+@connect(
+  state => ({
+    myMeetups: state.home.myMeetups,
+  }),
+  { fetchMyMeetups }
+)
 class HomeScreen extends Component {
 
-    static defaultProps = {
-        meetupApi
-    }
+
 
     // static navigationOptions = {
     //   tabBar: {
@@ -22,37 +29,43 @@ class HomeScreen extends Component {
     //   }
     // }
 
-    state = {
-        loading: false,
-        meetups: []
 
-    }
 
-    async componentDidMount() {
-        this.setState({ loading: true });
-        const meetups = await this.props.meetupApi.fetchGroupMeetups();
-        this.setState({ loading: false, meetups });
+    componentDidMount() {
+      this.props.fetchMyMeetups();
 
     }
 
 
     render() {
-
-        if (this.state.loading){
-            return <LoadingScreen />;
-        }
+      console.log(this.props);
+      const {
+        myMeetups: {
+          isFetched,
+          data,
+          error,
+        },
+      } = this.props;
+      if (!isFetched) {
+        return <LoadingScreen />;
+      } else if (error.on) {
         return (
-            <View style={styles.root}>
-                <View style={styles.topContainer}>
-                    <Text>HomeScreen</Text>
-                </View>
-                <View style={styles.bottomContainer}>
-                    <MyMeetupsList meetups={this.state.meetups} />
-                </View>
-            </View>
-
+          <View>
+            <Text>{error.message}</Text>
+          </View>
         );
+      }
+      return (
+        <View style={styles.root}>
+          <View style={styles.topContainer}>
+            <Text>HomeScreen</Text>
+          </View>
+          <View style={styles.bottomContainer}>
+            <MyMeetupsList meetups={data} />
+          </View>
+        </View>
+      );
     }
-}
+  }
 
 export default HomeScreen;
