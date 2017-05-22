@@ -2,6 +2,8 @@ import React from 'react';
 import { TabNavigator } from 'react-navigation';
 import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import Colors from '../../constants/Colors';
+//import styled from 'styled-components/native';
+import { Button, Icon } from 'native-base';
 
 import {
   HomeScreen,
@@ -19,6 +21,13 @@ export default TabNavigator({
     screen: HomeScreen,
     navigationOptions: ({ navigation }) => ({
       headerStyle: NavbarDefaultStyle,
+      headerRight: (
+
+          <Button transparent onPress={() => navigation.navigate('CreateMeetup')}>
+            <MaterialIcons  name="add-circle" size={30} color="#fff" />
+          </Button>
+
+      ),
 
       tabBarIcon: ({ tintColor }) => (
         <FontAwesome
@@ -56,11 +65,11 @@ export default TabNavigator({
     },
   },
 }, {
-  swipeEnabled: true,
+  swipeEnabled: false,
   animationEnabled: false,
   tabBarPosition: 'bottom',
   tabBarOptions: {
-    
+
     showLabel: false,
     showIcon: true,
     inactiveTintColor: Colors.blackBlueColor,
